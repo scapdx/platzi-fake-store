@@ -20,14 +20,6 @@ E-mail: admin@mail.com
 Senha: admin123
 ```
 
-## Executar localmente
-
-```bash
-npm install
-npm start
-```
-
-Acesse `http://localhost:4200`.
 
 ## Build
 
