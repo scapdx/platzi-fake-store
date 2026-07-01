@@ -1,0 +1,20 @@
+<aside class="sidebar">
+  <div class="brand">
+    <span class="brand-mark">P</span>
+    <div>
+      <strong>Platzi Admin</strong>
+      <small>Fake Store API</small>
+    </div>
+  </div>
+
+  <nav>
+    <a routerLink="/products" routerLinkActive="active">Produtos</a>
+    <a routerLink="/categories" routerLinkActive="active">Categorias</a>
+  </nav>
+
+  <button type="button" class="logout" (click)="auth.logout()">Sair</button>
+</aside>
+
+<main class="workspace">
+  <router-outlet />
+</main>

@@ -1,0 +1,37 @@
+<header class="page-header">
+  <div>
+    <span>Organização</span>
+    <h1>Categorias</h1>
+  </div>
+  <a class="primary-action" routerLink="/categories/new">Nova categoria</a>
+</header>
+
+<section class="toolbar" [formGroup]="filter">
+  <label>
+    Pesquisar categoria
+    <input formControlName="name" placeholder="Ex.: Electronics" />
+  </label>
+  <strong>{{ filteredCategories().length }} registros</strong>
+</section>
+
+@if (loading()) {
+  <p class="state">Carregando categorias...</p>
+} @else {
+  <section class="category-grid">
+    @for (category of filteredCategories(); track category.id) {
+      <article class="category-card">
+        <img [src]="category.image" [alt]="category.name" />
+        <div>
+          <small>ID #{{ category.id }}</small>
+          <h2>{{ category.name }}</h2>
+        </div>
+        <footer>
+          <a [routerLink]="['/categories', category.id, 'edit']">Editar</a>
+          <a class="danger" [routerLink]="['/categories', category.id, 'delete']">Excluir</a>
+        </footer>
+      </article>
+    } @empty {
+      <p class="state">Nenhuma categoria encontrada.</p>
+    }
+  </section>
+}

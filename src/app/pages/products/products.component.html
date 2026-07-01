@@ -1,0 +1,71 @@
+<header class="page-header">
+  <div>
+    <span>Catálogo</span>
+    <h1>Produtos</h1>
+  </div>
+  <a class="primary-action" routerLink="/products/new">Novo produto</a>
+</header>
+
+<section class="stats">
+  <article>
+    <small>Produtos encontrados</small>
+    <strong>{{ products().length }}</strong>
+  </article>
+  <article>
+    <small>Valor somado</small>
+    <strong>{{ totalValue() | currency: 'USD' }}</strong>
+  </article>
+  <article>
+    <small>Categorias disponíveis</small>
+    <strong>{{ categories().length }}</strong>
+  </article>
+</section>
+
+<form class="filters" [formGroup]="filters">
+  <label>
+    Buscar por nome
+    <input formControlName="title" placeholder="Ex.: Shoes" />
+  </label>
+  <label>
+    Categoria
+    <select formControlName="categoryId">
+      <option value="">Todas</option>
+      @for (category of categories(); track category.id) {
+        <option [value]="category.id">{{ category.name }}</option>
+      }
+    </select>
+  </label>
+  <label>
+    Preço mínimo
+    <input formControlName="minPrice" type="number" min="0" placeholder="0" />
+  </label>
+  <label>
+    Preço máximo
+    <input formControlName="maxPrice" type="number" min="0" placeholder="500" />
+  </label>
+  <button type="button" (click)="clear()">Limpar</button>
+</form>
+
+@if (loading()) {
+  <p class="state">Carregando produtos...</p>
+} @else {
+  <section class="product-grid">
+    @for (product of products(); track product.id) {
+      <article class="product-card">
+        <img [src]="image(product)" [alt]="product.title" />
+        <div class="card-body">
+          <span>{{ product.category.name }}</span>
+          <h2>{{ product.title }}</h2>
+          <p>{{ product.description }}</p>
+          <strong>{{ product.price | currency: 'USD' }}</strong>
+        </div>
+        <footer>
+          <a [routerLink]="['/products', product.id, 'edit']">Editar</a>
+          <a class="danger" [routerLink]="['/products', product.id, 'delete']">Excluir</a>
+        </footer>
+      </article>
+    } @empty {
+      <p class="state">Nenhum produto encontrado com os filtros atuais.</p>
+    }
+  </section>
+}

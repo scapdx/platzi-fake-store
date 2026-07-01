@@ -1,0 +1,58 @@
+<header class="page-header">
+  <div>
+    <span>Simulação</span>
+    <h1>{{ title() }}</h1>
+  </div>
+  <a [routerLink]="backUrl()">Voltar</a>
+</header>
+
+@if (loading()) {
+  <p class="state">Carregando registro...</p>
+} @else if (mode === 'delete') {
+  <section class="delete-panel">
+    <strong>Esta é uma exclusão simulada.</strong>
+    <p>O registro será removido apenas da navegação do protótipo; nenhum dado real será alterado na API.</p>
+    <div class="preview">
+      <span>{{ entity === 'product' ? 'Produto' : 'Categoria' }}</span>
+      <h2>{{ form.controls.name.value }}</h2>
+    </div>
+    <div class="actions">
+      <button class="danger" type="button" (click)="submit()">Confirmar exclusão</button>
+      <a [routerLink]="backUrl()">Cancelar</a>
+    </div>
+  </section>
+} @else {
+  <form class="form-panel" [formGroup]="form" (ngSubmit)="submit()">
+    <label>
+      {{ entity === 'product' ? 'Nome do produto' : 'Nome da categoria' }}
+      <input formControlName="name" />
+    </label>
+
+    @if (entity === 'product') {
+      <label>
+        Preço
+        <input formControlName="price" type="number" min="0" />
+      </label>
+
+      <label class="wide">
+        Descrição
+        <textarea formControlName="description" rows="5"></textarea>
+      </label>
+    }
+
+    <label class="wide">
+      URL da imagem
+      <input formControlName="image" placeholder="https://..." />
+    </label>
+
+    <div class="notice">
+      <strong>Protótipo sem persistência</strong>
+      <p>Salvar esta tela apenas simula a operação e retorna para a listagem.</p>
+    </div>
+
+    <div class="actions wide">
+      <button type="submit">{{ mode === 'create' ? 'Simular cadastro' : 'Simular edição' }}</button>
+      <a [routerLink]="backUrl()">Cancelar</a>
+    </div>
+  </form>
+}
